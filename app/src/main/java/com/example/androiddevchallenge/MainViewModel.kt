@@ -13,7 +13,7 @@ class MainViewModel: ViewModel() {
      * 是否全为数字
      */
     fun isAllDigit(str: String): Boolean {
-        return str.matches(Regex("[0-9]]+"))
+        return str.matches(Regex("[0-9]+"))
     }
 
     /**
