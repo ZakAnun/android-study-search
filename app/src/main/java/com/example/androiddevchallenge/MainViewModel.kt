@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 class MainViewModel: ViewModel() {
 
     var inputText: String by mutableStateOf("")
+    var clicked: Int by mutableStateOf(1)
 
     /**
      * 是否全为数字

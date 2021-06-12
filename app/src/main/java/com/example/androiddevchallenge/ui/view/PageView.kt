@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -60,24 +61,31 @@ fun PageView() {
         }
         if (!mainViewModel.isInputEmpty()) {
             Text(text = "输入内容: ${mainViewModel.inputText}",
-                modifier = Modifier.fillMaxWidth().padding(10.dp))
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp))
         }
+        Text(text = "", modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .clickable {
+                mainViewModel.inputText = ""
+                mainViewModel.clicked = 1
+            })
     }
 }
 
 @Composable
 fun SearchView(mainViewModel: MainViewModel, currentInputText: String, onValueChange: (String) -> Unit = {} ) {
 
+    if (mainViewModel.clicked == 1) {
+        LocalFocusManager.current.clearFocus()
+    }
+
     OutlinedTextField(
-//        colors = TextFieldDefaults.textFieldColors(
-//            textColor = Color.Black,
-//            disabledTextColor = Color.Transparent,
-//            backgroundColor = Color.Transparent,
-//            focusedIndicatorColor = Color.Black,
-//            unfocusedIndicatorColor = Color.Transparent,
-//            disabledIndicatorColor = Color.Transparent),
         value = currentInputText,
         onValueChange = {
+            mainViewModel.clicked = 0
             onValueChange.invoke(it)
         },
         modifier = Modifier
