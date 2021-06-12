@@ -1,12 +1,14 @@
 package com.example.androiddevchallenge.ui.view
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -85,13 +87,17 @@ fun SearchView(mainViewModel: MainViewModel, currentInputText: String, onValueCh
     OutlinedTextField(
         value = currentInputText,
         onValueChange = {
-            mainViewModel.clicked = 0
             onValueChange.invoke(it)
         },
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Transparent)
-            .padding(5.dp),
+            .padding(5.dp)
+            .onFocusChanged {
+                if (it.isFocused) {
+                    mainViewModel.clicked = 0
+                }
+            },
         label = {
             Text(text = "点击输入搜索内容")
         },
